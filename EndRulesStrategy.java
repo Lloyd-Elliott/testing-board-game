@@ -10,37 +10,43 @@ public class EndRulesStrategy implements RulesStrategy{
 
     @Override
     public void endOfGame() {
-        // Check exact position win
-        if (board.getBoardStrategy() instanceof SmallBoard) {
-            if (board.getCurrentIndex1() == board.getEndIndex1()) {
-                System.out.println("P1 WINS!");
-                board.setGameOver(true);
-            } else if (board.getCurrentIndex2() == board.getEndIndex2()) {
-                System.out.println("P2 WINS!");
-                board.setGameOver(true);
-            }
+        // Check for exact landing on winning distance
+        int spacesTraveled1 = board.getSpacesTraveled1();
+        int spacesTraveled2 = board.getSpacesTraveled2();
+        int winningDistance = board.getEndIndex1();
+
+        if (spacesTraveled1 == winningDistance) {
+            System.out.println("P1 WINS! Landed exactly on the final tail space!");
+            board.setGameOver(true);
+        } else if (spacesTraveled2 == winningDistance) {
+            System.out.println("P2 WINS! Landed exactly on the final tail space!");
+            board.setGameOver(true);
         }
     }
 
 
 
     @Override
-    public int calculateNewPosition(Player player, int moves, int endIndex) {
-        int currentPos = player.getStartingPosition();
-        int newPos = currentPos + moves;
+    public int calculateNewPosition(Player player, int moves, int winningDistance) {
+        // Get current spaces traveled
+        int currentSpacesTraveled = (player.getName().equals("P1")) ? 
+            board.getSpacesTraveled1() : board.getSpacesTraveled2();
+        
+        int newSpacesTraveled = currentSpacesTraveled + moves;
 
-        System.out.println(player.getName()+" Rolled a "+moves);
+        System.out.println(player.getName() + " rolled a " + moves);
+        System.out.println(player.getName() + " has traveled " + currentSpacesTraveled + " spaces");
         
         // Overshoot rule: stay at previous position (must land exactly)
-        if (newPos > endIndex) {
-            System.out.println(player.getName() + " overshot and must land exactly - stays at " + currentPos);
-            return currentPos; // Stay put
-        } else if (newPos == endIndex) {
-            System.out.println(player.getName() + " landed EXACTLY on the end at position " + newPos + "!");
+        if (newSpacesTraveled > winningDistance) {
+            System.out.println(player.getName() + " would overshoot (" + newSpacesTraveled + " > " + winningDistance + ") - must land exactly. Stays at " + currentSpacesTraveled);
+            return currentSpacesTraveled; // Stay put
+        } else if (newSpacesTraveled == winningDistance) {
+            System.out.println(player.getName() + " landed EXACTLY on the final tail space!");
         } else {
-            System.out.println(player.getName() + " moves from " + currentPos + " to " + newPos);
+            System.out.println(player.getName() + " moves to " + newSpacesTraveled + " spaces traveled");
         }
         
-        return newPos;
+        return newSpacesTraveled;
     }
 }

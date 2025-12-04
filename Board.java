@@ -28,6 +28,8 @@ public class Board {
     public int getCurrentIndex2() { return boardStrategy.getCurrentIndex2(); }
     public int getEndIndex1() { return boardStrategy.getEndIndex1(); }
     public int getEndIndex2() { return boardStrategy.getEndIndex2(); }
+    public int getSpacesTraveled1() { return boardStrategy.getSpacesTraveled1(); }
+    public int getSpacesTraveled2() { return boardStrategy.getSpacesTraveled2(); }
 
     public int getTileValue(int index) { return boardStrategy.getTileValue(index); }
 

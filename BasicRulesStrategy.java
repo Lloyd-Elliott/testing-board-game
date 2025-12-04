@@ -8,33 +8,37 @@ public class BasicRulesStrategy implements RulesStrategy {
 
     @Override
     public void endOfGame() {
-        int p1 = board.getCurrentIndex1();
-        int p2 = board.getCurrentIndex2();
+        // Check spaces traveled, not board position
+        int spacesTraveled1 = board.getSpacesTraveled1();
+        int spacesTraveled2 = board.getSpacesTraveled2();
 
-        int end1 = board.getEndIndex1();
-        int end2 = board.getEndIndex2();
+        int winningDistance = board.getEndIndex1();
 
-        if (p1 >= end1) {
-            System.out.println("Player 1 Wins: GAME OVER triggered!");
-            board.setGameOver(true);  // must delegate to BoardStrategy
-        } else if (p2 >= end2) {
-            System.out.println("Player 2 Wins: GAME OVER triggered!");
-            board.setGameOver(true);  // must delegate to BoardStrategy
+        if (spacesTraveled1 >= winningDistance) {
+            System.out.println("Player 1 Wins: Completed the circle and tail! GAME OVER!");
+            board.setGameOver(true);
+        } else if (spacesTraveled2 >= winningDistance) {
+            System.out.println("Player 2 Wins: Completed the circle and tail! GAME OVER!");
+            board.setGameOver(true);
         }
     }
 
     @Override
-    public int calculateNewPosition(Player player, int moves, int endIndex) {
-        int currentPos = player.getStartingPosition();
-        int newPos = currentPos + moves;
+    public int calculateNewPosition(Player player, int moves, int winningDistance) {
+        // Player holds their board position in startingPosition field
+        int currentBoardPos = player.getStartingPosition();
         
-        int currentTile = board.getTileValue(currentPos);
-        int newTile = board.getTileValue(newPos);
+        // Get current spaces traveled from board
+        int currentSpacesTraveled = (player.getName().equals("P1")) ? 
+            board.getSpacesTraveled1() : board.getSpacesTraveled2();
+        
+        int newSpacesTraveled = currentSpacesTraveled + moves;
         
         System.out.println(player.getName() + " rolled a " + moves);
-        System.out.println(player.getName() + " moves from position " + currentPos + " (tile: " + currentTile + ") to position " + newPos + " (tile: " + newTile + ")");
+        System.out.println(player.getName() + " at board position " + currentBoardPos + ", traveled " + currentSpacesTraveled + " spaces total");
+        System.out.println(player.getName() + " will travel to " + newSpacesTraveled + " spaces total");
         
-        return newPos;
+        return newSpacesTraveled;
     }
 }
 

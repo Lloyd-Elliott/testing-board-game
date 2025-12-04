@@ -13,33 +13,56 @@ public class SmallBoard implements BoardStrategy {
         this.player2 = player2;
     }
 
+    // Circular board with 18 spaces
+    private final static int BOARD_SIZE = 18;
     private final static int[] board = new int[]{
             1,2,3,4,5,6,7,8,9,10,
-            11,12,13,14,15,16,17,18,
-            1,2,3,10,11,12,13,14,15,
-            16,17,18,1,2,3,4,5,6,7,
-            8,9,1,2,3
+            11,12,13,14,15,16,17,18
     };
 
-    private int currentIndex1 = 0;
-    private int currentIndex2 = 21;
+    // Tail section - must complete after finishing the circle
+    private final static int TAIL_SIZE = 3;
+    private final static int[] tail = new int[]{
+        1,2,3
+    };
 
+    // Track how many spaces each player has traveled
+    private int spacesTraveled1 = 0;
+    private int spacesTraveled2 = 0;
+    
+    // Players must complete the circle (18 spaces) + tail (3 spaces) to win
+    private final int WINNING_DISTANCE = BOARD_SIZE + TAIL_SIZE;
+
+    // Get current position - if past BOARD_SIZE, they're in the tail
     public int getCurrentIndex1() { 
-        return currentIndex1; 
+        if (spacesTraveled1 >= BOARD_SIZE) {
+            return BOARD_SIZE + (spacesTraveled1 - BOARD_SIZE); // In tail section
+        }
+        return spacesTraveled1 % BOARD_SIZE; 
     }
     public int getCurrentIndex2() { 
-        return currentIndex2; 
+        if (spacesTraveled2 >= BOARD_SIZE) {
+            return BOARD_SIZE + (spacesTraveled2 - BOARD_SIZE); // In tail section
+        }
+        return (spacesTraveled2 + BOARD_SIZE / 2) % BOARD_SIZE; 
     }
 
-    private final int endTail1 = 20;
-    private final int endTail2 = 41;
+    // Get spaces traveled (for win condition)
+    public int getSpacesTraveled1() { return spacesTraveled1; }
+    public int getSpacesTraveled2() { return spacesTraveled2; }
 
-    public int getEndIndex1() { return endTail1; }
-    public int getEndIndex2() { return endTail2; }
+    public int getEndIndex1() { return WINNING_DISTANCE; }
+    public int getEndIndex2() { return WINNING_DISTANCE; }
 
     public int getTileValue(int index) {
-        if (index >= 0 && index < board.length) {
-            return board[index];
+        if (index >= BOARD_SIZE) {
+            // In tail section
+            int tailIndex = index - BOARD_SIZE;
+            if (tailIndex >= 0 && tailIndex < tail.length) {
+                return tail[tailIndex];
+            }
+        } else if (index >= 0 && index < board.length) {
+            return board[index % BOARD_SIZE];
         }
         return -1; // Invalid index
     }
@@ -48,15 +71,18 @@ public class SmallBoard implements BoardStrategy {
 
     @Override
     public void setupBoard() {
-        currentIndex1 = 0;
-        currentIndex2 = 21;
-        player1.setStartingPosition(0);
-        player2.setStartingPosition(21);
+        spacesTraveled1 = 0;
+        spacesTraveled2 = 0;
+        player1.setStartingPosition(0);  // P1 starts at position 0 on circle
+        player2.setStartingPosition(BOARD_SIZE / 2);  // P2 starts at position 21 on circle
         player1.setTurns(0);
         player2.setTurns(0);
         gameOver = false;
 
-        System.out.println("Setting up board...");
+        System.out.println("Setting up circular board (" + BOARD_SIZE + " spaces) + tail (" + TAIL_SIZE + " spaces)...");
+        System.out.println("P1 starts at index 0, P2 starts at index " + (BOARD_SIZE / 2));
+        System.out.println("Players must complete the circle (" + BOARD_SIZE + " spaces) then enter the tail (" + TAIL_SIZE + " spaces) to win");
+        System.out.println("Total distance to win: " + WINNING_DISTANCE + " spaces");
     }
 
    @Override
@@ -64,17 +90,34 @@ public class SmallBoard implements BoardStrategy {
         if (gameOver) return;
         
         Player currentPlayer = (player1.getTurns() <= player2.getTurns()) ? player1 : player2;
-        int endIndex = (currentPlayer == player1) ? endTail1 : endTail2;
+        boolean isPlayer1 = (currentPlayer == player1);
         
-        // Rules calculate where to move
-        int newPos = rulesStrategy.calculateNewPosition(currentPlayer, moves, endIndex);
+        // Rules calculate new total spaces traveled
+        int newSpacesTraveled = rulesStrategy.calculateNewPosition(currentPlayer, moves, WINNING_DISTANCE);
         
-        // Player updates itself
-        currentPlayer.moveTo(newPos);
+        // Calculate actual position (circle or tail)
+        int actualPosition;
+        if (newSpacesTraveled >= BOARD_SIZE) {
+            // Entered the tail - position is BOARD_SIZE + tail offset
+            actualPosition = BOARD_SIZE + (newSpacesTraveled - BOARD_SIZE);
+            if (newSpacesTraveled == BOARD_SIZE) {
+                System.out.println(currentPlayer.getName() + " has completed the circle and entered the TAIL!");
+            }
+        } else {
+            // Still on circular board
+            actualPosition = isPlayer1 ? 
+                newSpacesTraveled % BOARD_SIZE : 
+                (newSpacesTraveled + BOARD_SIZE / 2) % BOARD_SIZE;
+        }
         
-        // Update board tracking and notify
-        if (currentPlayer == player1) currentIndex1 = newPos;
-        else currentIndex2 = newPos;
+        // Update player position and board tracking
+        currentPlayer.moveTo(actualPosition);
+        
+        if (isPlayer1) {
+            spacesTraveled1 = newSpacesTraveled;
+        } else {
+            spacesTraveled2 = newSpacesTraveled;
+        }
         
         notifyObservers();
     }

@@ -7,6 +7,8 @@ public interface BoardStrategy {
     int getCurrentIndex2();
     int getEndIndex1();
     int getEndIndex2();
+    int getSpacesTraveled1();
+    int getSpacesTraveled2();
     void setGameOver(boolean value);
 
     int getTileValue(int index);
