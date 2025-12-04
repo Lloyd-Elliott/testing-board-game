@@ -1,12 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmallBoard implements BoardStratergy {
+public class SmallBoard implements BoardStrategy {
 
-    private final Player player1 = new Player("P1");
-    private final Player player2 = new Player("P2");
+    private final Player player1;
+    private final Player player2;
 
     private boolean gameOver = false;
+
+    public SmallBoard(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
 
     private final static int[] board = new int[]{
             1,2,3,4,5,6,7,8,9,10,
@@ -19,8 +24,12 @@ public class SmallBoard implements BoardStratergy {
     private int currentIndex1 = 0;
     private int currentIndex2 = 21;
 
-    public int getCurrentIndex1() { return currentIndex1; }
-    public int getCurrentIndex2() { return currentIndex2; }
+    public int getCurrentIndex1() { 
+        return currentIndex1; 
+    }
+    public int getCurrentIndex2() { 
+        return currentIndex2; 
+    }
 
     private final int endTail1 = 20;
     private final int endTail2 = 41;
@@ -51,14 +60,14 @@ public class SmallBoard implements BoardStratergy {
     }
 
    @Override
-    public void movePlayer(int moves, RulesStratergy rulesStratergy) {
+    public void movePlayer(int moves, RulesStrategy rulesStrategy) {
         if (gameOver) return;
         
         Player currentPlayer = (player1.getTurns() <= player2.getTurns()) ? player1 : player2;
         int endIndex = (currentPlayer == player1) ? endTail1 : endTail2;
         
         // Rules calculate where to move
-        int newPos = rulesStratergy.calculateNewPosition(currentPlayer, moves, endIndex);
+        int newPos = rulesStrategy.calculateNewPosition(currentPlayer, moves, endIndex);
         
         // Player updates itself
         currentPlayer.moveTo(newPos);

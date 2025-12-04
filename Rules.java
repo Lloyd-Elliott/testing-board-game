@@ -1,18 +1,18 @@
 public class Rules {
 
 //    private final Board board;
-    private final RulesStratergy rulesStratergy;
+    private final RulesStrategy rulesStrategy;
 
-    public Rules(RulesStratergy rulesStratergy) {
+    public Rules(RulesStrategy rulesStrategy) {
 
-        this.rulesStratergy = rulesStratergy;
+        this.rulesStrategy = rulesStrategy;
     }
     public void endOfGame() {
-        rulesStratergy.endOfGame();
+        rulesStrategy.endOfGame();
     }
 
-    public RulesStratergy getRulesStratergy() {
-        return rulesStratergy;
+    public RulesStrategy getRulesStrategy() {
+        return rulesStrategy;
     }
 
 

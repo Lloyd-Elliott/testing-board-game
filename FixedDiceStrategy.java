@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class FixedDiceStratergy implements DiceRollStratergy{
+public class FixedDiceStrategy implements DiceRollStrategy{
     private final List <Integer> fixedRolls;
     private int currentIndex = 0;
 
-    public FixedDiceStratergy(List<Integer> fixedRolls) {
+    public FixedDiceStrategy(List<Integer> fixedRolls) {
         this.fixedRolls = fixedRolls;
     }
     @Override

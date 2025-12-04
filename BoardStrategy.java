@@ -1,6 +1,6 @@
-public interface BoardStratergy {
+public interface BoardStrategy {
     void setupBoard();
-    void movePlayer(int moves, RulesStratergy rulesStratergy);
+    void movePlayer(int moves, RulesStrategy rulesStrategy);
     boolean hasWinner();
 
     int getCurrentIndex1();
@@ -8,6 +8,8 @@ public interface BoardStratergy {
     int getEndIndex1();
     int getEndIndex2();
     void setGameOver(boolean value);
+
+    int getTileValue(int index);
 
     void addObserver(BoardObserver obs);
     void notifyObservers();

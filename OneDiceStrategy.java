@@ -1,12 +1,12 @@
 import java.util.Random;
 
-public class OneDiceStratergy implements DiceRollStratergy{
+public class OneDiceStrategy implements DiceRollStrategy{
     //    commit
 
     private int sides = 6;
     private final Random random;
 
-    public OneDiceStratergy() {
+    public OneDiceStrategy() {
         this.random = new Random();
     }
 

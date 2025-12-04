@@ -3,14 +3,14 @@ import java.util.Random;
 public class Dice {
     //    commit
 
-    private DiceRollStratergy diceRollStratergy;
+    private DiceRollStrategy diceRollStrategy;
 
-    public Dice(DiceRollStratergy diceRollStratergy) {
-        this.diceRollStratergy = diceRollStratergy;
+    public Dice(DiceRollStrategy diceRollStrategy) {
+        this.diceRollStrategy = diceRollStrategy;
         }
 
         public int roll() {
-            return diceRollStratergy.rollDice();
+            return diceRollStrategy.rollDice();
         }
 
     }

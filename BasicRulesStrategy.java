@@ -1,8 +1,8 @@
-public class BasicRulesStratergy implements RulesStratergy {
+public class BasicRulesStrategy implements RulesStrategy {
 
     private final Board board;
 
-    public BasicRulesStratergy(Board board) {
+    public BasicRulesStrategy(Board board) {
         this.board = board;
     }
 
@@ -16,10 +16,10 @@ public class BasicRulesStratergy implements RulesStratergy {
 
         if (p1 >= end1) {
             System.out.println("Player 1 Wins: GAME OVER triggered!");
-            board.setGameOver(true);  // must delegate to BoardStratergy
+            board.setGameOver(true);  // must delegate to BoardStrategy
         } else if (p2 >= end2) {
             System.out.println("Player 2 Wins: GAME OVER triggered!");
-            board.setGameOver(true);  // must delegate to BoardStratergy
+            board.setGameOver(true);  // must delegate to BoardStrategy
         }
     }
 
@@ -28,8 +28,11 @@ public class BasicRulesStratergy implements RulesStratergy {
         int currentPos = player.getStartingPosition();
         int newPos = currentPos + moves;
         
-        System.out.println(player.getName()+" Rolled a "+moves);
-        System.out.println(player.getName() + " moves from " + currentPos + " to " + newPos);
+        int currentTile = board.getTileValue(currentPos);
+        int newTile = board.getTileValue(newPos);
+        
+        System.out.println(player.getName() + " rolled a " + moves);
+        System.out.println(player.getName() + " moves from position " + currentPos + " (tile: " + currentTile + ") to position " + newPos + " (tile: " + newTile + ")");
         
         return newPos;
     }

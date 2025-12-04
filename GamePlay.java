@@ -13,7 +13,7 @@ public class GamePlay {
         while (!game.board.hasWinner()) {
             System.out.println("\n=== ROUND " + round + " ===");
             int roll = game.dice.roll();
-            game.board.movePlayer(roll,game.rules.getRulesStratergy());
+            game.board.movePlayer(roll,game.rules.getRulesStrategy());
             round++;
         }
 

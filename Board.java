@@ -1,44 +1,46 @@
 public class Board {
-    private BoardStratergy boardStratergy;
+    private BoardStrategy boardStrategy;
 
-    public Board(BoardStratergy boardStratergy){
-        this.boardStratergy = boardStratergy;
+    public Board(BoardStrategy boardStrategy){
+        this.boardStrategy = boardStrategy;
     }
 
-    public BoardStratergy getBoardStratergy() {
-        return boardStratergy;
+    public BoardStrategy getBoardStrategy() {
+        return boardStrategy;
     }
     
 
 
 
     public void setupBoard(){
-        boardStratergy.setupBoard();
+        boardStrategy.setupBoard();
     }
 
-    public void movePlayer(int steps, RulesStratergy rulesStratergy) {
-        boardStratergy.movePlayer(steps, rulesStratergy);
+    public void movePlayer(int steps, RulesStrategy rulesStrategy) {
+        boardStrategy.movePlayer(steps, rulesStrategy);
     }
 
     public boolean hasWinner(){
-        return boardStratergy.hasWinner();
+        return boardStrategy.hasWinner();
     }
 
-    public int getCurrentIndex1() { return boardStratergy.getCurrentIndex1(); }
-    public int getCurrentIndex2() { return boardStratergy.getCurrentIndex2(); }
-    public int getEndIndex1() { return boardStratergy.getEndIndex1(); }
-    public int getEndIndex2() { return boardStratergy.getEndIndex2(); }
+    public int getCurrentIndex1() { return boardStrategy.getCurrentIndex1(); }
+    public int getCurrentIndex2() { return boardStrategy.getCurrentIndex2(); }
+    public int getEndIndex1() { return boardStrategy.getEndIndex1(); }
+    public int getEndIndex2() { return boardStrategy.getEndIndex2(); }
+
+    public int getTileValue(int index) { return boardStrategy.getTileValue(index); }
 
     // ⭐ THIS WAS MISSING
     public void setGameOver(boolean value) {
-        boardStratergy.setGameOver(value);
+        boardStrategy.setGameOver(value);
     }
 
     public void addObserver(BoardObserver obs) {
-        boardStratergy.addObserver(obs);
+        boardStrategy.addObserver(obs);
     }
 
     public void notifyObservers() {
-        boardStratergy.notifyObservers();
+        boardStrategy.notifyObservers();
     }
 }

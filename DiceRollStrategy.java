@@ -1,4 +1,4 @@
-public interface DiceRollStratergy {
+public interface DiceRollStrategy {
     int rollDice();
     //    commit
 }

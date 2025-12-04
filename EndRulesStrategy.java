@@ -1,8 +1,8 @@
-public class EndRulesStratergy implements RulesStratergy{
+public class EndRulesStrategy implements RulesStrategy{
 
     private final Board board;
 
-    public EndRulesStratergy(Board board) {
+    public EndRulesStrategy(Board board) {
         this.board = board;
     }
 
@@ -11,7 +11,7 @@ public class EndRulesStratergy implements RulesStratergy{
     @Override
     public void endOfGame() {
         // Check exact position win
-        if (board.getBoardStratergy() instanceof SmallBoard) {
+        if (board.getBoardStrategy() instanceof SmallBoard) {
             if (board.getCurrentIndex1() == board.getEndIndex1()) {
                 System.out.println("P1 WINS!");
                 board.setGameOver(true);
