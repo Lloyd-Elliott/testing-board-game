@@ -1,8 +1,9 @@
-package src.applicationcode;
+package src;
 
 import src.applicationcode.Board.SmallBoard;
 import src.applicationcode.Dice.Dice;
 import src.applicationcode.Dice.OneDiceStrategy;
+import src.applicationcode.Game.GamePlayImpl;
 import src.applicationcode.Player.Player;
 import src.applicationcode.Rules.BasicRules;
 import src.infrastructurecode.BoardLogger;

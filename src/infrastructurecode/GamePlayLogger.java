@@ -1,6 +1,6 @@
 package src.infrastructurecode;
 
-import src.applicationcode.GamePlay;
+import src.applicationcode.Game.GamePlay;
 import src.applicationcode.Player.Player;
 
 public class GamePlayLogger implements GamePlay {

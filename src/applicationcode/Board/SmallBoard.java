@@ -1,7 +1,7 @@
 package src.applicationcode.Board;
 import src.applicationcode.Player.Player;
-import src.applicationcode.GamePlay;
 import src.applicationcode.Dice.Dice;
+import src.applicationcode.Game.GamePlay;
 import src.infrastructurecode.BoardObserver;
 import java.util.ArrayList;
 import java.util.List;

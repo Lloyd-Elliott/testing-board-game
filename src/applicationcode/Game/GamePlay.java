@@ -1,4 +1,4 @@
-package src.applicationcode;
+package src.applicationcode.Game;
 
 import src.applicationcode.Player.Player;
 
