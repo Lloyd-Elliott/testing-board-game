@@ -1,3 +1,4 @@
+package src.applicationcode.rules;
 public class Rules {
     private final RulesStrategy rulesStrategy;
 

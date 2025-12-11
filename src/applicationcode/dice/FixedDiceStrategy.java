@@ -1,3 +1,4 @@
+package src.applicationcode.dice;
 import java.util.List;
 
 public class FixedDiceStrategy implements DiceRollStrategy{

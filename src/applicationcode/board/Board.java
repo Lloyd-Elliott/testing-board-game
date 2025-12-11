@@ -1,3 +1,7 @@
+package src.applicationcode.board;
+
+import src.applicationcode.rules.RulesStrategy;
+
 public class Board {
     private BoardStrategy boardStrategy;
 

@@ -1,3 +1,10 @@
+package src.applicationcode.game;
+
+import src.applicationcode.board.Board;
+import src.applicationcode.board.BoardObserver;
+import src.applicationcode.dice.Dice;
+import src.applicationcode.rules.Rules;
+
 public class Game {
     public Dice dice;
     public Board board;

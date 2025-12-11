@@ -1,3 +1,4 @@
+package src.applicationcode.game;
 public class GamePlay {
 
     private final Game game;

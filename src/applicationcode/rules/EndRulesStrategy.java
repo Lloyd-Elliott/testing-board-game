@@ -1,3 +1,8 @@
+package src.applicationcode.rules;
+
+import src.applicationcode.board.Board;
+import src.applicationcode.player.Player;
+
 public class EndRulesStrategy implements RulesStrategy{
 
     private final Board board;

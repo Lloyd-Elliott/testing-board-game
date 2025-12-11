@@ -1,3 +1,4 @@
+package src.applicationcode.dice;
 import java.util.Random;
 
 public class OneDiceStrategy implements DiceRollStrategy{

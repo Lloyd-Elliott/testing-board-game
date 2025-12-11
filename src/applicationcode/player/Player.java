@@ -1,3 +1,4 @@
+package src.applicationcode.player;
 public class Player {
     int startingPosition = 0;
     int turns = 0;

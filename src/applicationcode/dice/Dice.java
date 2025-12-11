@@ -1,3 +1,4 @@
+package src.applicationcode.dice;
 import java.util.Objects;
 
 public final class Dice {

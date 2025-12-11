@@ -1,4 +1,18 @@
+package src;
 import java.util.List;
+
+import src.applicationcode.board.Board;
+import src.applicationcode.board.BoardStrategy;
+import src.applicationcode.board.SmallBoard;
+import src.applicationcode.dice.Dice;
+import src.applicationcode.dice.FixedDiceStrategy;
+import src.applicationcode.dice.TwoDiceStrategy;
+import src.applicationcode.game.Game;
+import src.applicationcode.game.GamePlay;
+import src.applicationcode.player.Player;
+import src.applicationcode.player.PlayerFactory;
+import src.applicationcode.rules.EndRulesStrategy;
+import src.applicationcode.rules.Rules;
 
 public class Main {
     public static void main(String[] args) {

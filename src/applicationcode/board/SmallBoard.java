@@ -1,5 +1,9 @@
+package src.applicationcode.board;
 import java.util.ArrayList;
 import java.util.List;
+
+import src.applicationcode.player.Player;
+import src.applicationcode.rules.RulesStrategy;
 
 public class SmallBoard implements BoardStrategy {
 

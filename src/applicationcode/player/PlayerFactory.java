@@ -1,3 +1,4 @@
+package src.applicationcode.player;
 public class PlayerFactory {
     
     public static Player createPlayer(String name) {

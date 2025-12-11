@@ -1,3 +1,7 @@
+package src.applicationcode.board;
+
+import src.applicationcode.rules.RulesStrategy;
+
 public interface BoardStrategy {
     void setupBoard();
     void movePlayer(int moves, RulesStrategy rulesStrategy);
