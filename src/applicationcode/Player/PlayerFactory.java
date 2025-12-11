@@ -1,12 +1,14 @@
+package src.applicationcode.Player;
+
 public class PlayerFactory {
     
     public static Player createPlayer(String name) {
         return new Player(name);
     }
     
-    public static Player createPlayer(String name, int startingPosition) {
+    public static Player createPlayer(String name, int position) {
         Player player = new Player(name);
-        player.setStartingPosition(startingPosition);
+        player.setPosition(position);
         return player;
     }
     
