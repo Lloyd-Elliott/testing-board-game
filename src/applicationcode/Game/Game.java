@@ -15,6 +15,14 @@ public class Game {
         this.dice = board.getDice();
         this.players = players;
         this.rules = rules;
+        
+        // Set starting positions for players
+        int boardSize = board.getBoardSize();
+        for (int i = 0; i < players.length; i++) {
+            int startPosition = (i * boardSize / players.length);
+            players[i].setPosition(startPosition);
+            players[i].setStartingPosition(startPosition);
+        }
     }
     
     public Dice getDice() {

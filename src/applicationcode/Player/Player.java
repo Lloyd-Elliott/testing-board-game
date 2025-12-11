@@ -2,10 +2,12 @@ package src.applicationcode.Player;
 
 public class Player {
     private int position = 0;
+    private int startingPosition = 0;
     private int turns = 0;
     private String name;
     private boolean inTail = false;
     private int tailPosition = 0;
+    private boolean completedLap = false;
 
     public Player(String name) {
         this.name = name;
@@ -30,6 +32,22 @@ public class Player {
     
     public void setTailPosition(int tailPosition) {
         this.tailPosition = tailPosition;
+    }
+    
+    public int getStartingPosition() {
+        return startingPosition;
+    }
+    
+    public void setStartingPosition(int startingPosition) {
+        this.startingPosition = startingPosition;
+    }
+    
+    public boolean hasCompletedLap() {
+        return completedLap;
+    }
+    
+    public void setCompletedLap(boolean completedLap) {
+        this.completedLap = completedLap;
     }
 
     public String getName() {
