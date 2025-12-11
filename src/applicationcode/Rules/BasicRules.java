@@ -1,12 +1,12 @@
 package src.applicationcode.Rules;
 
 import src.applicationcode.Player.Player;
-import src.applicationcode.Board.SmallBoard;
+import src.applicationcode.Board.BoardStrategy;
 
 public class BasicRules implements RulesStrategy {
     
     @Override
-    public MoveResult calculateMove(Player player, int diceRoll, SmallBoard board) {
+    public MoveResult calculateMove(Player player, int diceRoll, BoardStrategy board) {
         int oldPosition = player.getPosition();
         int boardSize = board.getBoardSize();
         int tailSize = board.getTailSize();
@@ -46,7 +46,7 @@ public class BasicRules implements RulesStrategy {
     }
     
     @Override
-    public boolean hasWinner(Player player, SmallBoard board) {
+    public boolean hasWinner(Player player, BoardStrategy board) {
         return player.isInTail() && player.getTailPosition() >= board.getTailSize();
     }
 }

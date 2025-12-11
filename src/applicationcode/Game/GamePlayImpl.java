@@ -4,24 +4,19 @@ import src.applicationcode.Player.Player;
 import src.applicationcode.Board.SmallBoard;
 import src.applicationcode.Rules.RulesStrategy;
 import src.applicationcode.Rules.MoveResult;
-import src.infrastructurecode.BoardObserver;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlayImpl implements GamePlay {
     
-    private final SmallBoard board;
-    private final Player[] players;
-    private final RulesStrategy rules;
+    private final Game game;
     private Player currentPlayer;
     private int currentPlayerIndex = 0;
     private final List<GamePlayObserver> observers = new ArrayList<>();
     
-    public GamePlayImpl(SmallBoard board, Player[] players, RulesStrategy rules) {
-        this.board = board;
-        this.players = players;
-        this.rules = rules;
-        this.currentPlayer = players[0];
+    public GamePlayImpl(Game game) {
+        this.game = game;
+        this.currentPlayer = game.getPlayers()[0];
     }
     
     public void addObserver(GamePlayObserver observer) {
@@ -46,7 +41,7 @@ public class GamePlayImpl implements GamePlay {
         }
         
         // Calculate the move using rules
-        MoveResult moveResult = rules.calculateMove(currentPlayer, diceRoll, board);
+        MoveResult moveResult = game.getRules().calculateMove(currentPlayer, diceRoll, game.getBoard());
         
         // Update player state
         currentPlayer.moveTo(moveResult.getNewPosition());
@@ -73,8 +68,8 @@ public class GamePlayImpl implements GamePlay {
     }
     
     private void nextTurn() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        currentPlayer = players[currentPlayerIndex];
+        currentPlayerIndex = (currentPlayerIndex + 1) % game.getPlayers().length;
+        currentPlayer = game.getPlayers()[currentPlayerIndex];
     }
     
     public Player getCurrentPlayer() {
@@ -82,8 +77,8 @@ public class GamePlayImpl implements GamePlay {
     }
     
     public boolean hasWinner() {
-        for (Player player : players) {
-            if (rules.hasWinner(player, board)) {
+        for (Player player : game.getPlayers()) {
+            if (game.getRules().hasWinner(player, game.getBoard())) {
                 return true;
             }
         }
@@ -91,8 +86,8 @@ public class GamePlayImpl implements GamePlay {
     }
     
     public Player getWinner() {
-        for (Player player : players) {
-            if (rules.hasWinner(player, board)) {
+        for (Player player : game.getPlayers()) {
+            if (game.getRules().hasWinner(player, game.getBoard())) {
                 return player;
             }
         }
@@ -107,7 +102,7 @@ public class GamePlayImpl implements GamePlay {
     
     public void playUntilWinner() {
         while (!hasWinner()) {
-            int diceRoll = board.getDice().roll();
+            int diceRoll = game.getDice().roll();
             System.out.println("\n" + currentPlayer.getName() + "'s turn - Rolled: " + diceRoll);
             executeMove(diceRoll);
         }
