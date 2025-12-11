@@ -1,9 +1,15 @@
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
 
         // Create players using factory
         Player p1 = PlayerFactory.createPlayer("P1");
         Player p2 = PlayerFactory.createPlayer("P2");
+
+        List <Integer> fixedRolls = List.of(3, 4, 5, 6, 2, 1, 3, 4, 5, 6, 2, 1);
+
+        
 
         // Choose any board type here:
         BoardStrategy small = new SmallBoard(p1, p2);
@@ -16,17 +22,20 @@ public class Main {
         Board board = new Board(small);
 
         // Rules apply to ANY board
-        Rules rules = new Rules(new BasicRulesStrategy(board));
+        Rules rules = new Rules(new EndRulesStrategy(board));
 
         // Dice
         Dice dice = new Dice(new TwoDiceStrategy());
+        Dice diceFixed = new Dice(new FixedDiceStrategy(fixedRolls));
 
 
         // Create the game
         Game game = new Game(dice, board, rules);
 
+        Game game2 = new Game(diceFixed, board, rules);
+
         // Gameplay handler
-        GamePlay gameplay = new GamePlay(game);
+        GamePlay gameplay = new GamePlay(game2);
 
         // Start the game!
         gameplay.playGame();
