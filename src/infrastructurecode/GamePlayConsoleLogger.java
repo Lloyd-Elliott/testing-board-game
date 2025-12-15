@@ -5,6 +5,12 @@ import src.applicationcode.Player.Player;
 
 public class GamePlayConsoleLogger implements GamePlayObserver {
     
+    private final int boardSize;
+    
+    public GamePlayConsoleLogger(int boardSize) {
+        this.boardSize = boardSize;
+    }
+    
     @Override
     public void onPlayerMoved(Player player, int oldPosition, int newPosition) {
         String positionInfo = getPositionInfo(newPosition);
@@ -13,8 +19,8 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
     }
     
     private String getPositionInfo(int position) {
-        if (position >= 18) {
-            int tailPos = position - 18 + 1;
+        if (position >= boardSize) {
+            int tailPos = position - boardSize;
             return "Tail position " + tailPos;
         } else {
             return "Tile " + (position + 1);
@@ -29,6 +35,11 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
     @Override
     public void onPlayerOvershot(Player player) {
         System.out.println("[Infrastructure] Player '" + player.getName() + "' overshot! Staying in place.");
+    }
+    
+    @Override
+    public void onPlayerCollision(Player player, int blockedPosition) {
+        System.out.println("[Infrastructure] Player '" + player.getName() + "' hit another player at " + getPositionInfo(blockedPosition) + "! Bounced back.");
     }
     
     @Override

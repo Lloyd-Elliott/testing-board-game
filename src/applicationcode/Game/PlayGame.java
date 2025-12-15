@@ -16,11 +16,16 @@ public class PlayGame implements GamePlay {
     private int currentPlayerIndex = 0;
     private final List<GamePlayObserver> observers = new ArrayList<>();
     
-    public PlayGame(Game game) {
+    public PlayGame(Game game, GamePlayObserver observer) {
         this.game = game;
         this.rules = game.getRules();
         this.board = game.getBoard();
         this.currentPlayer = game.getPlayers()[0];
+        
+        // Register the injected observer
+        if (observer != null) {
+            addObserver(observer);
+        }
     }
     
     public void addObserver(GamePlayObserver observer) {
@@ -43,7 +48,7 @@ public class PlayGame implements GamePlay {
             return;
         }
         
-        MoveResult moveResult = rules.calculateMove(currentPlayer, diceRoll, board);
+        MoveResult moveResult = rules.calculateMove(currentPlayer, diceRoll, board, game.getPlayers());
         
         currentPlayer.moveTo(moveResult.getNewPosition());
         
@@ -56,6 +61,10 @@ public class PlayGame implements GamePlay {
         }
         
         onPlayerMoved(currentPlayer, moveResult.getOldPosition(), moveResult.getNewPosition());
+        
+        if (moveResult.isCollision()) {
+            notifyCollision(currentPlayer, moveResult.getBlockedPosition());
+        }
         
         if (moveResult.isOvershot()) {
             notifyOvershot(currentPlayer);
@@ -105,6 +114,12 @@ public class PlayGame implements GamePlay {
     private void notifyOvershot(Player player) {
         for (GamePlayObserver observer : observers) {
             observer.onPlayerOvershot(player);
+        }
+    }
+    
+    private void notifyCollision(Player player, int blockedPosition) {
+        for (GamePlayObserver observer : observers) {
+            observer.onPlayerCollision(player, blockedPosition);
         }
     }
     

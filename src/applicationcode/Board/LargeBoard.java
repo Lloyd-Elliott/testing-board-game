@@ -1,25 +1,30 @@
 package src.applicationcode.Board;
-import src.applicationcode.Dice.Dice;
-import src.infrastructurecode.BoardObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmallBoard implements BoardStrategy {
+import src.applicationcode.Dice.Dice;
+import src.infrastructurecode.BoardObserver;
 
+public class LargeBoard implements BoardStrategy {
+
+    
     private final List<BoardObserver> observers = new ArrayList<>();
     private final Dice dice;
-    private static final int BOARD_SIZE = 18;
+    private static final int BOARD_SIZE = 36;
     private static final int[] board = new int[]{
             1,2,3,4,5,6,7,8,9,10,
-            11,12,13,14,15,16,17,18
+            11,12,13,14,15,16,17,18,
+            19,20,21,22,23,24,25,26,
+            27,28,29,30,31,32,33,34,35,36
     };
 
-    private static final int TAIL_SIZE = 3;
+    private static final int TAIL_SIZE = 6;
     private static final int[] tail = new int[]{
-        1,2,3
+        1,2,3,4,5,6
     };
     
-    public SmallBoard(Dice dice, BoardObserver observer) {
+    public LargeBoard(Dice dice, BoardObserver observer) {
         this.dice = dice;
         // Register the injected observer
         if (observer != null) {
@@ -42,7 +47,7 @@ public class SmallBoard implements BoardStrategy {
     @Override
     public void notifyObservers() {
         for (BoardObserver observer : observers) {
-            observer.onBoardCreated("SmallBoard", "2");
+            observer.onBoardCreated("LargeBoard", "4");
         }
     }
 
@@ -66,3 +71,4 @@ public class SmallBoard implements BoardStrategy {
         return dice;
     }
 }
+    
