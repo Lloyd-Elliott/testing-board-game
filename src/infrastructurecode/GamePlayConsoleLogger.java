@@ -33,12 +33,12 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
     
     @Override
     public void onTurnStarted(Player player, int diceRoll) {
-        System.out.println("\n" + player.getName() + "'s turn - Rolled: " + diceRoll);
+        System.out.println("\n" + player.getName() + "'s turn, Turn Number " + (player.getTurns() + 1) + " They Rolled A: " + diceRoll);
     }
     
     @Override
     public void onGameComplete(Player winner) {
         System.out.println("\n=== Game Complete ===");
-        System.out.println("Winner: " + winner.getName());
+        System.out.println(winner.getName() + " Won In " + winner.getTurns() + " Turns");
     }
 }

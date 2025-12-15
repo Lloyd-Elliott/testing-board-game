@@ -17,7 +17,7 @@ import src.infrastructurecode.GamePlayConsoleLogger;
 public class Main {
     
     public static void main(String[] args) {
-        System.out.println("=== Board Game Starting ===\n");
+        
         
         Dice dice = new Dice(new OneDiceStrategy());
         
