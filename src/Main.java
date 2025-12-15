@@ -5,10 +5,12 @@ import src.applicationcode.Board.SmallBoard;
 import src.applicationcode.Dice.Dice;
 import src.applicationcode.Dice.OneDiceStrategy;
 import src.applicationcode.Game.Game;
-import src.applicationcode.Game.GamePlayImpl;
+import src.applicationcode.Game.PlayGame;
 import src.applicationcode.Player.Player;
 import src.applicationcode.Player.PlayerFactory;
 import src.applicationcode.Rules.BasicRules;
+import src.applicationcode.Rules.ExactEndRules;
+import src.applicationcode.Rules.RulesStrategy;
 import src.infrastructurecode.BoardLogger;
 import src.infrastructurecode.GamePlayConsoleLogger;
 
@@ -17,34 +19,23 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("=== Board Game Starting ===\n");
         
-        // Create dice with one dice strategy
         Dice dice = new Dice(new OneDiceStrategy());
         
-        // Create board with dice
         BoardStrategy board = new SmallBoard(dice);
         
-        // Create players using factory
         Player[] players = PlayerFactory.createPlayers("Red", "Blue");
         
-        // Create rules
-        BasicRules rules = new BasicRules();
+        RulesStrategy rules = new ExactEndRules();
         
-        // Create game aggregate
         Game game = new Game(board, players, rules);
         
-        // Create gameplay orchestrator
-        GamePlayImpl gamePlay = new GamePlayImpl(game);
+        PlayGame gamePlay = new PlayGame(game);
         
-        // Add observers for logging
         gamePlay.addObserver(new GamePlayConsoleLogger());
         board.addObserver(new BoardLogger());
         
-        // Setup board and notify observers
         board.notifyObservers();
         
-        
-        
-        // Play the game until there's a winner
         gamePlay.playUntilWinner();
     }
 }

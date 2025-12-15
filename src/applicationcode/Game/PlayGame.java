@@ -1,21 +1,25 @@
 package src.applicationcode.Game;
 
 import src.applicationcode.Player.Player;
-import src.applicationcode.Board.SmallBoard;
-import src.applicationcode.Rules.RulesStrategy;
 import src.applicationcode.Rules.MoveResult;
+import src.applicationcode.Rules.RulesStrategy;
+import src.applicationcode.Board.BoardStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GamePlayImpl implements GamePlay {
+public class PlayGame implements GamePlay {
     
     private final Game game;
+    private final RulesStrategy rules;
+    private final BoardStrategy board;
     private Player currentPlayer;
     private int currentPlayerIndex = 0;
     private final List<GamePlayObserver> observers = new ArrayList<>();
     
-    public GamePlayImpl(Game game) {
+    public PlayGame(Game game) {
         this.game = game;
+        this.rules = game.getRules();
+        this.board = game.getBoard();
         this.currentPlayer = game.getPlayers()[0];
     }
     
@@ -29,7 +33,6 @@ public class GamePlayImpl implements GamePlay {
     
     @Override
     public void onPlayerMoved(Player player, int oldPosition, int newPosition) {
-        // Notify observers about the move
         for (GamePlayObserver observer : observers) {
             observer.onPlayerMoved(player, oldPosition, newPosition);
         }
@@ -37,13 +40,11 @@ public class GamePlayImpl implements GamePlay {
     
     public void executeMove(int diceRoll) {
         if (hasWinner()) {
-            return; // Game is over
+            return;
         }
         
-        // Calculate the move using rules
-        MoveResult moveResult = game.getRules().calculateMove(currentPlayer, diceRoll, game.getBoard());
+        MoveResult moveResult = rules.calculateMove(currentPlayer, diceRoll, board);
         
-        // Update player state
         currentPlayer.moveTo(moveResult.getNewPosition());
         
         if (moveResult.isEnteredTail()) {
@@ -54,16 +55,17 @@ public class GamePlayImpl implements GamePlay {
             currentPlayer.setTailPosition(moveResult.getTailPosition());
         }
         
-        // Notify observers
         onPlayerMoved(currentPlayer, moveResult.getOldPosition(), moveResult.getNewPosition());
         
-        // Check for winner
+        if (moveResult.isOvershot()) {
+            notifyOvershot(currentPlayer);
+        }
+        
         if (moveResult.isCompletedGame()) {
             notifyGameOver(currentPlayer);
             return;
         }
         
-        // Switch to next player
         nextTurn();
     }
     
@@ -78,7 +80,7 @@ public class GamePlayImpl implements GamePlay {
     
     public boolean hasWinner() {
         for (Player player : game.getPlayers()) {
-            if (game.getRules().hasWinner(player, game.getBoard())) {
+            if (rules.hasWinner(player, board)) {
                 return true;
             }
         }
@@ -87,7 +89,7 @@ public class GamePlayImpl implements GamePlay {
     
     public Player getWinner() {
         for (Player player : game.getPlayers()) {
-            if (game.getRules().hasWinner(player, game.getBoard())) {
+            if (rules.hasWinner(player, board)) {
                 return player;
             }
         }
@@ -100,20 +102,32 @@ public class GamePlayImpl implements GamePlay {
         }
     }
     
+    private void notifyOvershot(Player player) {
+        for (GamePlayObserver observer : observers) {
+            observer.onPlayerOvershot(player);
+        }
+    }
+    
     public void playUntilWinner() {
         while (!hasWinner()) {
             int diceRoll = game.getDice().roll();
-            System.out.println("\n" + currentPlayer.getName() + "'s turn - Rolled: " + diceRoll);
+            notifyTurnStarted(currentPlayer, diceRoll);
             executeMove(diceRoll);
         }
         
         Player winner = getWinner();
-        System.out.println("\n=== Game Complete ===");
-        System.out.println("Winner: " + winner.getName());
+        notifyGameComplete(winner);
     }
     
-    public interface GamePlayObserver {
-        void onPlayerMoved(Player player, int oldPosition, int newPosition);
-        void onGameOver(Player winner);
+    private void notifyTurnStarted(Player player, int diceRoll) {
+        for (GamePlayObserver observer : observers) {
+            observer.onTurnStarted(player, diceRoll);
+        }
+    }
+    
+    private void notifyGameComplete(Player winner) {
+        for (GamePlayObserver observer : observers) {
+            observer.onGameComplete(winner);
+        }
     }
 }

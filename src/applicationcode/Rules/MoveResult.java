@@ -6,13 +6,15 @@ public class MoveResult {
     private final boolean enteredTail;
     private final int tailPosition;
     private final boolean completedGame;
+    private final boolean overshot;
     
-    public MoveResult(int oldPosition, int newPosition, boolean enteredTail, int tailPosition, boolean completedGame) {
+    public MoveResult(int oldPosition, int newPosition, boolean enteredTail, int tailPosition, boolean completedGame, boolean overshot) {
         this.oldPosition = oldPosition;
         this.newPosition = newPosition;
         this.enteredTail = enteredTail;
         this.tailPosition = tailPosition;
         this.completedGame = completedGame;
+        this.overshot = overshot;
     }
     
     public int getOldPosition() {
@@ -33,5 +35,9 @@ public class MoveResult {
     
     public boolean isCompletedGame() {
         return completedGame;
+    }
+    
+    public boolean isOvershot() {
+        return overshot;
     }
 }

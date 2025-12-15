@@ -2,9 +2,6 @@ package src.applicationcode.Dice;
 import java.util.Random;
 
 public class TwoDiceStrategy implements  DiceRollStrategy {
-    //    commit
-
-
     private int sides = 6;
     private final Random random;
     public TwoDiceStrategy() {

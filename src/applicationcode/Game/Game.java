@@ -16,7 +16,6 @@ public class Game {
         this.players = players;
         this.rules = rules;
         
-        // Set starting positions for players
         int boardSize = board.getBoardSize();
         for (int i = 0; i < players.length; i++) {
             int startPosition = (i * boardSize / players.length);

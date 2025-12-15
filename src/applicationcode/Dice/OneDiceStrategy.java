@@ -2,8 +2,6 @@ package src.applicationcode.Dice;
 import java.util.Random;
 
 public class OneDiceStrategy implements DiceRollStrategy{
-    //    commit
-
     private int sides = 6;
     private final Random random;
 

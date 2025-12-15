@@ -1,9 +1,9 @@
 package src.infrastructurecode;
 
-import src.applicationcode.Game.GamePlayImpl;
+import src.applicationcode.Game.GamePlayObserver;
 import src.applicationcode.Player.Player;
 
-public class GamePlayConsoleLogger implements GamePlayImpl.GamePlayObserver {
+public class GamePlayConsoleLogger implements GamePlayObserver {
     
     @Override
     public void onPlayerMoved(Player player, int oldPosition, int newPosition) {
@@ -24,5 +24,21 @@ public class GamePlayConsoleLogger implements GamePlayImpl.GamePlayObserver {
     @Override
     public void onGameOver(Player winner) {
         System.out.println("[Infrastructure] Game Over! Winner: " + winner.getName());
+    }
+    
+    @Override
+    public void onPlayerOvershot(Player player) {
+        System.out.println("[Infrastructure] Player '" + player.getName() + "' overshot! Staying in place.");
+    }
+    
+    @Override
+    public void onTurnStarted(Player player, int diceRoll) {
+        System.out.println("\n" + player.getName() + "'s turn - Rolled: " + diceRoll);
+    }
+    
+    @Override
+    public void onGameComplete(Player winner) {
+        System.out.println("\n=== Game Complete ===");
+        System.out.println("Winner: " + winner.getName());
     }
 }

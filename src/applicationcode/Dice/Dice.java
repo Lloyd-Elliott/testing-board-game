@@ -2,8 +2,6 @@ package src.applicationcode.Dice;
 import java.util.Objects;
 
 public final class Dice {
-    // Value Object: Immutable dice with equality based on strategy
-    
     private final DiceRollStrategy diceRollStrategy;
 
     public Dice(DiceRollStrategy diceRollStrategy) {
@@ -14,7 +12,6 @@ public final class Dice {
         return diceRollStrategy.rollDice();
     }
 
-    // Value Object methods: equals, hashCode, toString
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

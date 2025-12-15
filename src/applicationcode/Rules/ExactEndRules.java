@@ -1,10 +1,10 @@
 package src.applicationcode.Rules;
 
-import src.applicationcode.Player.Player;
 import src.applicationcode.Board.BoardStrategy;
+import src.applicationcode.Player.Player;
 
-public class BasicRules implements RulesStrategy {
-    
+public class ExactEndRules implements RulesStrategy {
+
     @Override
     public MoveResult calculateMove(Player player, int diceRoll, BoardStrategy board) {
         int oldPosition = player.getPosition();
@@ -15,8 +15,10 @@ public class BasicRules implements RulesStrategy {
             int currentTailPos = player.getTailPosition();
             int newTailPosition = currentTailPos + diceRoll;
             
-            if (newTailPosition >= tailSize) {
+            if (newTailPosition == tailSize) {
                 return new MoveResult(oldPosition, boardSize + tailSize, false, tailSize, true, false);
+            } else if (newTailPosition > tailSize) {
+                return new MoveResult(oldPosition, oldPosition, false, currentTailPos, false, true);
             } else {
                 return new MoveResult(oldPosition, boardSize + newTailPosition, false, newTailPosition, false, false);
             }
@@ -31,7 +33,9 @@ public class BasicRules implements RulesStrategy {
                     player.setCompletedLap(true);
                     int overflow = wrappedPosition - startPos;
                     
-                    if (overflow >= tailSize) {
+                    if (overflow > tailSize) {
+                        return new MoveResult(oldPosition, startPos, false, 0, false, true);
+                    } else if (overflow == tailSize) {
                         return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
                     } else {
                         return new MoveResult(oldPosition, boardSize + overflow, true, overflow, false, false);
@@ -44,7 +48,9 @@ public class BasicRules implements RulesStrategy {
                 if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
                     int overflow = newPosition - startPos;
                     
-                    if (overflow >= tailSize) {
+                    if (overflow > tailSize) {
+                        return new MoveResult(oldPosition, startPos, false, 0, false, true);
+                    } else if (overflow == tailSize) {
                         return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
                     } else {
                         return new MoveResult(oldPosition, boardSize + overflow, true, overflow, false, false);
@@ -58,6 +64,8 @@ public class BasicRules implements RulesStrategy {
     
     @Override
     public boolean hasWinner(Player player, BoardStrategy board) {
-        return player.isInTail() && player.getTailPosition() >= board.getTailSize();
+        return player.isInTail() && player.getTailPosition() == board.getTailSize();
     }
 }
+   
+
