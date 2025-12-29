@@ -73,7 +73,6 @@ public class BounceRules implements RulesStrategy {
     }
     
     private boolean isPositionOccupied(int position, Player[] allPlayers, Player currentPlayer, int boardSize) {
-        // Don't check collisions for tail positions
         if (position >= boardSize) {
             return false;
         }
