@@ -46,8 +46,14 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
     }
     
     @Override
-    public void onGameComplete(Player winner) {
+    public void onGameComplete(Player winner, Player[] allPlayers) {
+        int totalTurns = 0;
+        for (Player player : allPlayers) {
+            totalTurns += player.getTurns();
+        }
+        
         System.out.println("\n=== Game Complete ===");
         System.out.println(winner.getName() + " Won In " + winner.getTurns() + " Turns");
+        System.out.println("Total Turns: " + totalTurns);
     }
 }

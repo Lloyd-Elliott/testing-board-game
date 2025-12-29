@@ -10,17 +10,6 @@ public class MoveResult {
     private final boolean collision;
     private final int blockedPosition;
     
-    public MoveResult(int oldPosition, int newPosition, boolean enteredTail, int tailPosition, boolean completedGame, boolean overshot) {
-        this.oldPosition = oldPosition;
-        this.newPosition = newPosition;
-        this.enteredTail = enteredTail;
-        this.tailPosition = tailPosition;
-        this.completedGame = completedGame;
-        this.overshot = overshot;
-        this.collision = false;
-        this.blockedPosition = -1;
-    }
-    
     public MoveResult(int oldPosition, int newPosition, boolean enteredTail, int tailPosition, boolean completedGame, boolean overshot, boolean collision, int blockedPosition) {
         this.oldPosition = oldPosition;
         this.newPosition = newPosition;

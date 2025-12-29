@@ -8,5 +8,5 @@ public interface GamePlayObserver {
     void onPlayerCollision(Player player, int blockedPosition);
     void onGameOver(Player winner);
     void onTurnStarted(Player player, int diceRoll);
-    void onGameComplete(Player winner);
+    void onGameComplete(Player winner, Player[] allPlayers);
 }

@@ -16,11 +16,11 @@ public class ExactEndRules implements RulesStrategy {
             int newTailPosition = currentTailPos + diceRoll;
             
             if (newTailPosition == tailSize) {
-                return new MoveResult(oldPosition, boardSize + tailSize, false, tailSize, true, false);
+                return new MoveResult(oldPosition, boardSize + tailSize, false, tailSize, true, false, false, -1);
             } else if (newTailPosition > tailSize) {
-                return new MoveResult(oldPosition, oldPosition, false, currentTailPos, false, true);
+                return new MoveResult(oldPosition, oldPosition, false, currentTailPos, false, true, false, -1);
             } else {
-                return new MoveResult(oldPosition, boardSize + newTailPosition, false, newTailPosition, false, false);
+                return new MoveResult(oldPosition, boardSize + newTailPosition, false, newTailPosition, false, false, false, -1);
             }
         } else {
             int startPos = player.getStartingPosition();
@@ -34,25 +34,25 @@ public class ExactEndRules implements RulesStrategy {
                     int overflow = movePosition - startPos;
                     
                     if (overflow >= tailSize) {
-                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true);
+                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true, false, -1);
                     } else {
-                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false);
+                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false, false, -1);
                     }
                 } else {
                     player.setCompletedLap(true);
-                    return new MoveResult(oldPosition, movePosition, false, 0, false, false);
+                    return new MoveResult(oldPosition, movePosition, false, 0, false, false, false, -1);
                 }
             } else {
                 if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
                     int overflow = newPosition - startPos;
                     
                     if (overflow >= tailSize) {
-                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true);
+                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true, false, -1);
                     } else {
-                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false);
+                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false, false, -1);
                     }
                 } else {
-                    return new MoveResult(oldPosition, newPosition, false, 0, false, false);
+                    return new MoveResult(oldPosition, newPosition, false, 0, false, false, false, -1);
                 }
             }
         }

@@ -30,6 +30,21 @@ public class PlayGame {
     public void removeObserver(GamePlayObserver observer) {
         observers.remove(observer);
     }
+
+    public void playUntilWinner() {
+        for (GamePlayObserver observer : observers) {
+            observer.onRulesType(rules.getRulesType());
+        }
+        while (!hasWinner()) {
+            int diceRoll = game.getDice().roll();
+                        
+            notifyTurnStarted(currentPlayer, diceRoll);
+            executeMove(diceRoll);
+        }
+        
+        Player winner = getWinner();
+        notifyGameComplete(winner);
+    }
     
     public void executeMove(int diceRoll) {
         if (hasWinner()) {
@@ -109,24 +124,6 @@ public class PlayGame {
         }
     }
     
-    public void playUntilWinner() {
-        for (GamePlayObserver observer : observers) {
-            observer.onRulesType(rules.getRulesType());
-        }
-        while (!hasWinner()) {
-            int diceRoll = game.getDice().roll();
-            
-            if (hasWinner()) {
-                break;
-            }
-            
-            notifyTurnStarted(currentPlayer, diceRoll);
-            executeMove(diceRoll);
-        }
-        
-        Player winner = getWinner();
-        notifyGameComplete(winner);
-    }
     
     private void notifyTurnStarted(Player player, int diceRoll) {
         for (GamePlayObserver observer : observers) {
@@ -136,7 +133,7 @@ public class PlayGame {
     
     private void notifyGameComplete(Player winner) {
         for (GamePlayObserver observer : observers) {
-            observer.onGameComplete(winner);
+            observer.onGameComplete(winner, game.getPlayers());
         }
     }
 }
