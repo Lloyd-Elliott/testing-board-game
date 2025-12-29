@@ -28,7 +28,6 @@ public class Main {
         
         Player[] players = PlayerFactory.createPlayers(board.getBoardSize(), "Red", "Blue", "Green", "Yellow");
         
-        // Register PlayerMovementLogger for each player
         PlayerMovementLogger movementLogger = new PlayerMovementLogger(board.getBoardSize());
         for (Player player : players) {
             player.addObserver(movementLogger);
@@ -40,7 +39,6 @@ public class Main {
         
         PlayGame gamePlay = new PlayGame(game);
         
-        // Register GamePlayConsoleLogger
         GamePlayConsoleLogger gameLogger = new GamePlayConsoleLogger(board.getBoardSize());
         gamePlay.addObserver(gameLogger);
         
