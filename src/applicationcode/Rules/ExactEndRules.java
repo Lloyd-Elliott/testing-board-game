@@ -33,12 +33,10 @@ public class ExactEndRules implements RulesStrategy {
                     player.setCompletedLap(true);
                     int overflow = movePosition - startPos;
                     
-                    if (overflow > tailSize) {
-                        return new MoveResult(oldPosition, startPos, false, 0, false, true);
-                    } else if (overflow == tailSize) {
-                        return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
+                    if (overflow >= tailSize) {
+                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true);
                     } else {
-                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, false, false);
+                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false);
                     }
                 } else {
                     player.setCompletedLap(true);
@@ -48,12 +46,10 @@ public class ExactEndRules implements RulesStrategy {
                 if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
                     int overflow = newPosition - startPos;
                     
-                    if (overflow > tailSize) {
-                        return new MoveResult(oldPosition, startPos, false, 0, false, true);
-                    } else if (overflow == tailSize) {
-                        return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
+                    if (overflow >= tailSize) {
+                        return new MoveResult(oldPosition, oldPosition, false, 0, false, true);
                     } else {
-                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, false, false);
+                        return new MoveResult(oldPosition, boardSize + overflow, true, overflow, overflow == tailSize - 1, false);
                     }
                 } else {
                     return new MoveResult(oldPosition, newPosition, false, 0, false, false);
@@ -64,7 +60,7 @@ public class ExactEndRules implements RulesStrategy {
     
     @Override
     public boolean hasWinner(Player player, BoardStrategy board) {
-        return player.isInTail() && player.getTailPosition() == board.getTailSize();
+        return player.isInTail() && player.getTailPosition() == board.getTailSize() - 1;
     }
 }
    

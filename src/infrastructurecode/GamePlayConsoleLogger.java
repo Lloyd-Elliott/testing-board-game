@@ -11,6 +11,11 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
         this.boardSize = boardSize;
     }
     
+    @Override
+    public void onRulesType(String rulesType) {
+        System.out.println("[Infrastructure] Rules Type: " + rulesType);
+    }
+    
     private String getPositionInfo(int position) {
         if (position >= boardSize) {
             int tailPos = position - boardSize;

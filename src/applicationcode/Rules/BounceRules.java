@@ -49,7 +49,7 @@ public class BounceRules implements RulesStrategy {
                     return new MoveResult(oldPosition, movePosition, false, 0, false, false);
                 }
             } else {
-                if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
+                if (oldPosition < startPos && newPosition >= startPos) {
                     int overflow = newPosition - startPos;
                     
                     if (overflow >= tailSize) {
@@ -87,6 +87,6 @@ public class BounceRules implements RulesStrategy {
     
     @Override
     public boolean hasWinner(Player player, BoardStrategy board) {
-        return player.isInTail() && player.getTailPosition() >= board.getTailSize();
+        return player.isInTail() && player.getTailPosition() >= board.getTailSize() -1;
     }
 }

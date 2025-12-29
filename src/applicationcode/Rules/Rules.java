@@ -19,4 +19,8 @@ public class Rules implements RulesStrategy {
     public boolean hasWinner(Player player, BoardStrategy board) {
         return rulesStrategy.hasWinner(player, board);
     }
+    
+    public String getRulesType() {
+        return rulesStrategy.getClass().getSimpleName();
+    }
 }

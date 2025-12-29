@@ -58,6 +58,6 @@ public class BasicRules implements RulesStrategy {
     
     @Override
     public boolean hasWinner(Player player, BoardStrategy board) {
-        return player.isInTail() && player.getTailPosition() >= board.getTailSize();
+        return player.isInTail() && player.getTailPosition() >= board.getTailSize() - 1;
     }
 }

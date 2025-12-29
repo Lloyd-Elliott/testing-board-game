@@ -110,8 +110,16 @@ public class PlayGame {
     }
     
     public void playUntilWinner() {
+        for (GamePlayObserver observer : observers) {
+            observer.onRulesType(rules.getRulesType());
+        }
         while (!hasWinner()) {
             int diceRoll = game.getDice().roll();
+            
+            if (hasWinner()) {
+                break;
+            }
+            
             notifyTurnStarted(currentPlayer, diceRoll);
             executeMove(diceRoll);
         }

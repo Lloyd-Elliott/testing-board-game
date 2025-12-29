@@ -19,7 +19,7 @@ public class PlayerMovementLogger implements PlayerMovementObserver {
     private String getPositionInfo(int position) {
         if (position >= boardSize) {
             int tailPos = position - boardSize;
-            return "Tail position " + tailPos;
+            return "Tail position " + (tailPos + 1);
         } else {
             return "Tile " + (position + 1);
         }
