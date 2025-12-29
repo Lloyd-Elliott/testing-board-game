@@ -11,13 +11,6 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
         this.boardSize = boardSize;
     }
     
-    @Override
-    public void onPlayerMoved(Player player, int oldPosition, int newPosition) {
-        String positionInfo = getPositionInfo(newPosition);
-        System.out.println("[Infrastructure] Player '" + player.getName() + "' moved from " 
-                          + getPositionInfo(oldPosition) + " to " + positionInfo);
-    }
-    
     private String getPositionInfo(int position) {
         if (position >= boardSize) {
             int tailPos = position - boardSize;
@@ -34,12 +27,12 @@ public class GamePlayConsoleLogger implements GamePlayObserver {
     
     @Override
     public void onPlayerOvershot(Player player) {
-        System.out.println("[Infrastructure] Player '" + player.getName() + "' overshot! Staying in place.");
+        System.out.println("[Infrastructure] Player " + player.getName() + " overshot! Staying in place.");
     }
     
     @Override
     public void onPlayerCollision(Player player, int blockedPosition) {
-        System.out.println("[Infrastructure] Player '" + player.getName() + "' hit another player at " + getPositionInfo(blockedPosition) + "! Bounced back.");
+        System.out.println("[Infrastructure] Player " + player.getName() + " hit another player at " + getPositionInfo(blockedPosition) + "! Bounced back.");
     }
     
     @Override

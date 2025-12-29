@@ -27,18 +27,17 @@ public class ExactAndCollisionRules implements RulesStrategy {
             int newPosition = oldPosition + diceRoll;
             
             if (newPosition >= boardSize) {
-                int wrappedPosition = newPosition % boardSize;
+                int movePosition = newPosition % boardSize;
                 
-                if (wrappedPosition >= startPos) {
+                if (movePosition >= startPos) {
                     player.setCompletedLap(true);
-                    int overflow = wrappedPosition - startPos;
+                    int overflow = movePosition - startPos;
                     
                     if (overflow > tailSize) {
                         return new MoveResult(oldPosition, startPos, false, 0, false, true);
                     } else if (overflow == tailSize) {
                         return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
                     } else {
-                        // Check collision before entering tail
                         int targetPosition = boardSize + overflow;
                         if (isPositionOccupied(targetPosition, allPlayers, player, boardSize)) {
                             return new MoveResult(oldPosition, oldPosition, false, 0, false, false, true, targetPosition);
@@ -47,11 +46,10 @@ public class ExactAndCollisionRules implements RulesStrategy {
                     }
                 } else {
                     player.setCompletedLap(true);
-                    // Check collision on wrapped position
-                    if (isPositionOccupied(wrappedPosition, allPlayers, player, boardSize)) {
-                        return new MoveResult(oldPosition, oldPosition, false, 0, false, false, true, wrappedPosition);
+                    if (isPositionOccupied(movePosition, allPlayers, player, boardSize)) {
+                        return new MoveResult(oldPosition, oldPosition, false, 0, false, false, true, movePosition);
                     }
-                    return new MoveResult(oldPosition, wrappedPosition, false, 0, false, false);
+                    return new MoveResult(oldPosition, movePosition, false, 0, false, false);
                 }
             } else {
                 if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
@@ -62,7 +60,6 @@ public class ExactAndCollisionRules implements RulesStrategy {
                     } else if (overflow == tailSize) {
                         return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
                     } else {
-                        // Check collision before entering tail
                         int targetPosition = boardSize + overflow;
                         if (isPositionOccupied(targetPosition, allPlayers, player, boardSize)) {
                             return new MoveResult(oldPosition, oldPosition, false, 0, false, false, true, targetPosition);

@@ -1,5 +1,8 @@
 package src.applicationcode.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private int position = 0;
     private int startingPosition = 0;
@@ -8,14 +11,31 @@ public class Player {
     private boolean inTail = false;
     private int tailPosition = 0;
     private boolean completedLap = false;
+    private final List<PlayerMovementObserver> observers = new ArrayList<>();
 
     public Player(String name) {
         this.name = name;
     }
+    
+    public void addObserver(PlayerMovementObserver observer) {
+        observers.add(observer);
+    }
+    
+    public void removeObserver(PlayerMovementObserver observer) {
+        observers.remove(observer);
+    }
+    
+    private void notifyObservers(int oldPosition, int newPosition) {
+        for (PlayerMovementObserver observer : observers) {
+            observer.onPlayerMoved(this.name, oldPosition, newPosition);
+        }
+    }
 
     public void moveTo(int newPosition) {
+        int oldPosition = this.position;
         this.position = newPosition;
         this.turns++;
+        notifyObservers(oldPosition, newPosition);
     }
     
     public boolean isInTail() {

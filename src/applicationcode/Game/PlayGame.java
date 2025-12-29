@@ -2,30 +2,25 @@ package src.applicationcode.Game;
 
 import src.applicationcode.Player.Player;
 import src.applicationcode.Rules.MoveResult;
-import src.applicationcode.Rules.RulesStrategy;
-import src.applicationcode.Board.BoardStrategy;
+import src.applicationcode.Rules.Rules;
+import src.applicationcode.Board.Board;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayGame implements GamePlay {
+public class PlayGame {
     
     private final Game game;
-    private final RulesStrategy rules;
-    private final BoardStrategy board;
+    private final Rules rules;
+    private final Board board;
     private Player currentPlayer;
     private int currentPlayerIndex = 0;
     private final List<GamePlayObserver> observers = new ArrayList<>();
     
-    public PlayGame(Game game, GamePlayObserver observer) {
+    public PlayGame(Game game) {
         this.game = game;
         this.rules = game.getRules();
         this.board = game.getBoard();
         this.currentPlayer = game.getPlayers()[0];
-        
-        // Register the injected observer
-        if (observer != null) {
-            addObserver(observer);
-        }
     }
     
     public void addObserver(GamePlayObserver observer) {
@@ -34,13 +29,6 @@ public class PlayGame implements GamePlay {
     
     public void removeObserver(GamePlayObserver observer) {
         observers.remove(observer);
-    }
-    
-    @Override
-    public void onPlayerMoved(Player player, int oldPosition, int newPosition) {
-        for (GamePlayObserver observer : observers) {
-            observer.onPlayerMoved(player, oldPosition, newPosition);
-        }
     }
     
     public void executeMove(int diceRoll) {
@@ -59,8 +47,6 @@ public class PlayGame implements GamePlay {
         if (currentPlayer.isInTail()) {
             currentPlayer.setTailPosition(moveResult.getTailPosition());
         }
-        
-        onPlayerMoved(currentPlayer, moveResult.getOldPosition(), moveResult.getNewPosition());
         
         if (moveResult.isCollision()) {
             notifyCollision(currentPlayer, moveResult.getBlockedPosition());

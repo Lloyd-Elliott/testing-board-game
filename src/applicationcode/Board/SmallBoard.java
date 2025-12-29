@@ -1,6 +1,5 @@
 package src.applicationcode.Board;
 import src.applicationcode.Dice.Dice;
-import src.infrastructurecode.BoardObserver;
 import java.util.ArrayList;
 import java.util.List;
 

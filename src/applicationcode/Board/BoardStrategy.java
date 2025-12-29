@@ -1,5 +1,4 @@
 package src.applicationcode.Board;
-import src.infrastructurecode.BoardObserver;
 import src.applicationcode.Dice.Dice;
 
 public interface BoardStrategy {

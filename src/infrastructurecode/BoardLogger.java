@@ -1,5 +1,7 @@
 package src.infrastructurecode;
 
+import src.applicationcode.Board.BoardObserver;
+
 public class BoardLogger implements BoardObserver {
     
     @Override

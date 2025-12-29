@@ -1,16 +1,16 @@
 package src.applicationcode.Game;
 import src.applicationcode.Dice.Dice;
-import src.applicationcode.Board.BoardStrategy;
-import src.applicationcode.Rules.RulesStrategy;
+import src.applicationcode.Board.Board;
+import src.applicationcode.Rules.Rules;
 import src.applicationcode.Player.Player;
 
 public class Game {
     private final Dice dice;
-    private final BoardStrategy board;
-    private final RulesStrategy rules;
+    private final Board board;
+    private final Rules rules;
     private final Player[] players;
     
-    public Game(BoardStrategy board, Player[] players, RulesStrategy rules) {
+    public Game(Board board, Player[] players, Rules rules) {
         this.board = board;
         this.dice = board.getDice();
         this.players = players;
@@ -28,11 +28,11 @@ public class Game {
         return dice;
     }
     
-    public BoardStrategy getBoard() {
+    public Board getBoard() {
         return board;
     }
     
-    public RulesStrategy getRules() {
+    public Rules getRules() {
         return rules;
     }
     

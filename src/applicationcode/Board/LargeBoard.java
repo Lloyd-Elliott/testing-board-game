@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import src.applicationcode.Dice.Dice;
-import src.infrastructurecode.BoardObserver;
 
 public class LargeBoard implements BoardStrategy {
 

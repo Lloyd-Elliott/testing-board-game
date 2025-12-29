@@ -25,11 +25,11 @@ public class BasicRules implements RulesStrategy {
             int newPosition = oldPosition + diceRoll;
             
             if (newPosition >= boardSize) {
-                int wrappedPosition = newPosition % boardSize;
+                int movePosition = newPosition % boardSize;
                 
-                if (wrappedPosition >= startPos) {
+                if (movePosition >= startPos) {
                     player.setCompletedLap(true);
-                    int overflow = wrappedPosition - startPos;
+                    int overflow = movePosition - startPos;
                     
                     if (overflow >= tailSize) {
                         return new MoveResult(oldPosition, boardSize + tailSize, true, tailSize, true, false);
@@ -38,7 +38,7 @@ public class BasicRules implements RulesStrategy {
                     }
                 } else {
                     player.setCompletedLap(true);
-                    return new MoveResult(oldPosition, wrappedPosition, false, 0, false, false);
+                    return new MoveResult(oldPosition, movePosition, false, 0, false, false);
                 }
             } else {
                 if (player.hasCompletedLap() && oldPosition < startPos && newPosition >= startPos) {
